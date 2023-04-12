@@ -1,0 +1,23 @@
+// Program for counter which counts the number of events from the external pin of microcontroller 8051 [pin: p3.4] -> T0 
+//[Mode 2: t show output at Port 1]
+
+Precursor: 
+TMOD: [Gate C/Tdash M1 M0 | Gate C/Tdash M1 M0]  0000 0110
+            Timer 1             Timer0
+
+TCON:  [TF1 TR1 TF0 TR0 IE1 IT1 IE0 IT0]   0001 0000
+
+Code:
+
+ORG 0000H
+MOV TMOD, #06H
+SETB P3.4
+MOV TL0,#0000H
+MOV TH0,#00H
+HERE: SETB TR0
+BACK: MOV P1, TL0
+      JNB TF0,BACK
+      CLR TR0
+      CLR TF0
+      SJMP HERE
+END

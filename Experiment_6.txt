@@ -1,0 +1,57 @@
+//Addition without carry
+ORG 0000H
+MOV A,#52H
+ADD A,#32H
+MOV 03H,A
+END
+
+//Addition with Carry set to 1
+ORG 0000H
+SETB C
+MOV A,#52H
+ADDC A,#32H
+MOV 03H,A
+END
+
+//Addition with Carry set to 0
+ORG 0000H
+CLR C
+MOV A,#52H
+ADDC A,#32H
+MOV 03H,A
+END
+
+//Subtraction with Carry set to 0
+ORG 0000H
+CLR C
+MOV A,#52H
+SUBB A,#32H
+MOV 03H,A
+END
+
+//Subtraction with Carry set to 1
+ORG 0000H
+SETB C
+MOV A,#52H
+SUBB A,#32H
+MOV 03H,A
+END
+
+//Multiplication 
+ORG 0000H
+MOV B,#65H
+MOV A,#35H
+MUL AB
+MOV 03H,A    //UPPERBYTE
+MOV 01H,B    //LOWERBYTE
+END
+
+//Division
+ORG 0000H
+MOV B,#65H    
+MOV A,#35H
+DIV AB
+MOV 03H,A
+MOV 01H,B
+END
+

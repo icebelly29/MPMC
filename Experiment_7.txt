@@ -1,0 +1,56 @@
+//To exchange a block of data byte from one memory RAM location to another AND to find the largest number in an Array
+
+//Algo for Block Exchange:
+Load the address from source{R0} to destination{R1}
+Load the R2 with data stored at location R0 {counter}
+Get first data from source atstored in Accumulator
+Exchange the data
+Increment source and destination addresss
+Decerement the counter
+Run loop till the value of counter is zero
+End the program
+
+//Code for Block Exchange:
+ORG 0000H
+MOV R0,#40H
+MOV R1,#51H
+MOV A,@R0
+MOV R2,a
+INC R0
+BACK: MOV A,@R0
+      XCH A,@R1
+      MOV  @R0,a
+      INC R0
+      INC R1
+      DJNZ R2,BACK
+END
+
+//Algo for Largest No.:
+R0 <- Starting address of Array 
+R1<- @R0 counter
+Decrement R2 counterFirst data -> B register
+Second data -> Accumulator
+compare A and B
+if b>A  then no change
+if B<A Copy A into B
+Store the largest data in B 
+End
+
+//Code for Largest
+ORG 0000H
+MOV R0,#40H
+MOV A,@R0
+MOV R2,A
+DEC R2
+INC R0
+MOV B,@R0
+INC R0
+BACK: MOV A,@R0
+      CJNE A,B,LOOP 
+      JMP LOOP1
+LOOP: JC LOOP1
+      MOV B,A
+LOOP1: INC R0
+       DJNZ R2,BACK
+       MOV 60H,B
+END

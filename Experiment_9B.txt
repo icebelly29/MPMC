@@ -1,0 +1,34 @@
+//Program for serial communication, To Transfer 'V' 'I' 'T' Serially at 4800 Baud Rate
+
+Precursor:
+
+TH1=256 - (28800/Baud Rate) = 250 (Decimal) => FA
+
+TMOD: [Gate C/Tdash M1 M0 | Gate C/Tdash M1 M0]  0001 0000
+            Timer 1             Timer0
+
+SCON:  [SM0 SM1 SM2 REN TB8 RB8 TI RI]   0101 0000
+
+Code:
+ORG 0000H
+MOV TMOD, #20H
+MOV SCON, #50H
+MOV TH1, #0FAH
+SETB TR1
+AGAIN: MOV SBUF, #'V'
+HERE1: JNB TI, HERE1
+       CLR TI
+       MOV SBUF,#'I'
+HERE2: JNB TI, HERE2
+       CLR TI
+       MOV SBUF,#'T'
+HERE 3: JNB TI, HERE3
+        CLR TI
+HERE 4: JNB RI, HERE4
+        MOV P1,SBUF
+        CLR RI
+HERE 5: JNB RI,HERE5
+        MOV P1,SBUF
+        CLR RI
+        SJMP AGAIN        
+END

@@ -1,0 +1,32 @@
+//To generate a square wave onPort 1.3 And when There is intruppt in P3.2 (External Intruppt). Change the status of LED Connected on Port P1.4
+
+Precursor:
+
+IE: [EA - ET2 E5 ET1 EX1 ET0 EX0]  1000 0001
+
+IP:  [- - PT2 PS PT1 EX1 PT0 PX0]   
+
+Code:
+
+ORG 0000H
+LJMP Main
+ORG  0003H
+CPL P1.4
+RETI
+ORG 0003H
+MAIN: MOV IE,#81H
+      SETB IT0
+AGAIN: SETB P1.3
+       ACALL DELAY
+       CLR P1.3
+       ACALL DELAY
+       SJMP AGAIN
+DELAY: MOV TMOD,#01H
+       MOV TL0,#00H
+       MOV TH0,#0EEH
+       SETB TR0
+AGAIN1: JNB TF0,AGAIN1
+        CLR TR0
+        CLR TF0
+        RET
+END
